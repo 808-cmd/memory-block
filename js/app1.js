@@ -1,5 +1,6 @@
 let difficulty = 2
 let num = []
+let score = 0
 
 document.addEventListener('DOMContentLoaded' , ()=>{
     const gridDisplay = document.querySelector('.grid')
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 setTimeout(active, 2000);
                 started = true
                 ended = false
-                text.innerText = "Press ESC to exit"
+                text.innerText = "Press ESC to exit(Press H for hints)"
             }
             else{
                 return
@@ -29,7 +30,10 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             
             if(ended === false && started === true ){
                 cubes = []
-                num = 0
+                num = []
+                score = 0
+                let temp = document.getElementById('score')
+                temp.innerHTML = "<strong>Score:</strong>" + score;
                 document.querySelectorAll('.grid-2').forEach(e => e.remove())
                 ended = true
                 started = false
@@ -96,19 +100,19 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             }
         }
 
+        function hint(){
+            for(let i=0; i < width; i++){
+                for(let o=0; o < width; o++){
+                    cubes[i][o].classList.remove('active');
+                }
+            }
+            setTimeout(active, 500)
+        }
+
         document.addEventListener('keyup', control)
         function control(e) {
-            if(e.keyCode === 37 || e.keyCode === 65){
-                moveLeft()
-            }
-            else if(e.keyCode === 38  || e.keyCode === 87){
-                moveUp()
-            }
-            else if(e.keyCode === 39 || e.keyCode === 68){
-                moveRight()
-            }
-            else if(e.keyCode === 40 || e.keyCode === 83){
-                moveDown()
+            if(e.keyCode === 72){
+                hint()
             }
             else if(e.keyCode === 13){
                 start()
@@ -157,11 +161,13 @@ document.addEventListener("click" , e=>{
                 for(let i = 0; i<num.length;i++){
                     num[i].classList.add('correct')
                 }
+                setTimeout(resetCheckOPtionTwo, 1000)
             }
             else{
                 for(let i = 0; i<num.length;i++){
                     num[i].classList.add('wrong')
                 }
+                setTimeout(resetCheckOPtion, 1000)
             }
             
             
@@ -172,9 +178,25 @@ document.addEventListener("click" , e=>{
         for(let i = 0; i<num.length;i++){
             num[i].classList.remove('rotating')
             num[i].classList.add('active')
-            num[i].classList.remove('correct')
             num[i].classList.remove('wrong')
         }
+        score--
+        let temp = document.getElementById('score')
+        temp.innerHTML = "<strong>Score:</strong>" + score;
+        num = []
+    }
+
+    function resetCheckOPtionTwo(){
+        for(let i = 0; i<num.length;i++){
+            num[i].classList.remove('rotating')
+            num[i].classList.add('active')
+            num[i].classList.remove('correct')
+            let temp = validate(num[i])
+            getPieceClassTwo(num[i], temp)
+        }
+        score++
+        let temp = document.getElementById('score')
+        temp.innerHTML = "<strong>Score:</strong>" + score;
         num = []
     }
 
@@ -199,4 +221,34 @@ document.addEventListener("click" , e=>{
             }
     }
     
+    function getPieceClassTwo(cube, string){
+        let temp = Math.floor(Math.random()*(6-0) + 0)
+    
+        switch(temp){
+            case 0:
+                cube.classList.remove(string);
+                cube.classList.add('bishop');
+                break
+            case 1:
+                cube.classList.remove(string);
+                cube.classList.add('board');
+                break
+            case 2:
+                cube.classList.remove(string);
+                cube.classList.add('king');
+                break
+            case 3:
+                cube.classList.remove(string);
+                cube.classList.add('knight');
+                break
+            case 4:
+                cube.classList.remove(string);
+                cube.classList.add('pawn');
+                break
+            case 5:
+                cube.classList.remove(string);
+                cube.classList.add('queen');
+                break
+        }
+    }
 })

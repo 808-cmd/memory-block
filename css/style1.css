@@ -11,16 +11,16 @@
 }
 
 body{
+    font-family: 'Poppins', sans-serif;
     background-color: #F7FFF7;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-h3{
-    font-family: 'Poppins', sans-serif;
+h3,h2{
+    text-align: center;
     font-size: clamp(1rem, 4vw, 3rem);
-    padding: 2vw;
     color: #434A42;
 }
 
@@ -29,10 +29,8 @@ h3{
     padding: 1vw;
     display: flex;
     flex-wrap: wrap;
-    width: 600px;
-    max-width: 80%;
-    height: 600px;
-    max-height: 80vw;
+    width: min(600px, 80%);
+    height: min(600px, 80vw);
     background-color: #F3B391;
 }
 
@@ -43,14 +41,13 @@ h3{
     justify-content: center;
     align-items: center;
     border-radius: 6px;
-    width: 90px;
-    max-width: 12.66%;
-    height: 90px;
-    max-height: 12.666%;
+    width: min(90px, 12.66%);
+    height: min(90px, 12.66%);
     margin: 2%;
     background-size: 60% 60%;
     background-repeat: no-repeat;
     background-position: center;
+    
 }
 
 .grid-2.active{
@@ -60,10 +57,12 @@ h3{
 
 .grid-2.correct{
     background-color: #3F612D;
+    filter: drop-shadow(0 0 0.5rem #3F612D);
 }
 
 .grid-2.wrong{
     background-color: #6F0707;
+    filter: drop-shadow(0 0 0.5rem #6F0707);
 }
 
 .bishop{
