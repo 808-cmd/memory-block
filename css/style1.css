@@ -31,12 +31,11 @@ h3,h2{
     flex-wrap: wrap;
     width: min(600px, 80%);
     height: min(600px, 80vw);
-    background-color: #F3B391;
+    background-color: rgb(248,231,187);
 }
 
 .grid-2{
     cursor: pointer;
-    color: #434A42;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,49 +49,62 @@ h3,h2{
     
 }
 
-.grid-2.active{
-    background-color: #626C66;
+.grid-odd:nth-child(odd){
+    background-color: #fffdf5;
+}
+.grid-odd:nth-child(even){
+    background-color: rgb(102,0,0);
+}
+
+.grid-even:nth-child(odd){
+    background-color: rgb(102,0,0);
+}
+.grid-even:nth-child(even){
+    background-color: #fffdf5;
+}
+
+.grid-even.checked,
+.grid-odd.checked{
     background-image: none;
 }
 
-.grid-2.correct{
+.grid-even.active,
+.grid-odd.active{
+    background-image: none;
+}
+
+.grid-odd.correct,
+.grid-even.correct{
     background-color: #3F612D;
-    filter: drop-shadow(0 0 0.5rem #3F612D);
 }
 
-.grid-2.wrong{
-    background-color: #6F0707;
-    filter: drop-shadow(0 0 0.5rem #6F0707);
+.grid-odd.wrong,
+.grid-even.wrong{
+    background-color: #6f0707;
 }
 
-.bishop{
+.Bishop{
     background-image: url("../chess-bishop.svg");
-    background-color: #fbb5b169;
 }
 
-.board{
-    background-image: url("../chess-board.svg");
-    background-color: #ff6b6b6c;
+.rook{
+    background-image: url("../chess-rook-solid.svg");
 }
 
-.king{
+.King{
     background-image: url("../chess-king.svg");
-    background-color: #a3e6de63;
 }
 
-.knight{
+.Knight{
     background-image: url("../chess-knight.svg");
-    background-color: #ffd86d67;
 }
 
-.pawn{
+.Pawn{
     background-image: url("../chess-pawn.svg");
-    background-color: #ff896c6e;
 }
 
-.queen{
+.Queen{
     background-image: url("../chess-queen.svg");
-    background-color: #386b6c6e;
 }
 
 .rotating{

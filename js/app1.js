@@ -9,11 +9,16 @@ document.addEventListener('DOMContentLoaded' , ()=>{
 
     let started = false
     let ended = true
+    let template = [
+        {name: 'Bishop'},{name: 'Bishop'},{name: 'Bishop'},{name: 'Bishop'},{name: 'Bishop'},{name: 'Bishop'},{name: 'King'},{name: 'King'},{name: 'King'},{name: 'King'},{name: 'King'},{name: 'King'},{name: 'Knight'},{name: 'Knight'},{name: 'Knight'},{name: 'Knight'},{name: 'Knight'},{name: 'Knight'},{name: 'Pawn'},{name: 'Pawn'},{name: 'Pawn'},{name: 'Pawn'},{name: 'Pawn'},{name: 'Pawn'},{name: 'Queen'},{name: 'Queen'},{name: 'Queen'},{name: 'Queen'},{name: 'Queen'},{name: 'Queen'},{name: 'rook'},{name: 'rook'},{name: 'rook'},{name: 'rook'},{name: 'rook'},{name: 'rook'}
+    ];
+    let templateCount = 0;
     let cubes = [] 
 
         // start the 'game'
         function start(){
             if(started === false && ended === true){
+                template.sort(() => 0.5 - Math.random());
                 createBoard()
                 setTimeout(active, 2000);
                 started = true
@@ -33,7 +38,9 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 num = []
                 score = 0
                 let temp = document.getElementById('score')
-                temp.innerHTML = "<strong>Score:</strong>" + score;
+                temp.innerHTML = "Score:" + score;
+                //document.querySelectorAll('.grid-even').forEach(e => e.remove())
+                //document.querySelectorAll('.grid-odd').forEach(e => e.remove())
                 document.querySelectorAll('.grid-2').forEach(e => e.remove())
                 ended = true
                 started = false
@@ -53,42 +60,30 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             for(let i=0; i < width; i++){
                 cubes[i] = new Array(width) 
             }
-
             for(let i=0; i < width; i++){
                 for(let o=0; o < width; o++){
                     cube = document.createElement('div');
+                    if (i == 0 || i == 2 || i == 4) {
+                        cube.classList.add('grid-even');
+                    } 
+                    if(i == 1 || i == 3 || i == 5) {
+                        cube.classList.add('grid-odd');
+                    }
                     cube.classList.add('grid-2');
-                    gridDisplay.appendChild(cube)
                     getPieceClass(cube)
+                    gridDisplay.appendChild(cube)
                     cubes[i][o] = cube
                 }
             }
 
+            console.log(cubes)
+
         }
 
         function getPieceClass(cube){
-            let temp = Math.floor(Math.random()*(6-0) + 0)
-        
-            switch(temp){
-                case 0:
-                    cube.classList.add('bishop');
-                    break
-                case 1:
-                    cube.classList.add('board');
-                    break
-                case 2:
-                    cube.classList.add('king');
-                    break
-                case 3:
-                    cube.classList.add('knight');
-                    break
-                case 4:
-                    cube.classList.add('pawn');
-                    break
-                case 5:
-                    cube.classList.add('queen');
-                    break
-            }
+            var pieceClass = template[templateCount].name
+            cube.classList.add(pieceClass); 
+            templateCount++;       
         }
 
         //active cubes 
@@ -125,7 +120,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
 
 document.addEventListener("click" , e=>{
     
-    if (e.target.classList.contains('grid-2')) {
+    if (e.target.classList.contains('grid-even') || e.target.classList.contains('grid-odd')) {
         if(e.target.classList.contains('active')){
             if (num.length < difficulty) {
                 e.target.classList.add('rotating')
@@ -172,6 +167,9 @@ document.addEventListener("click" , e=>{
             
             
         }
+        if(score == 18){
+            alert('well done!');
+        }
     }
 
     function resetCheckOPtion(){
@@ -180,44 +178,48 @@ document.addEventListener("click" , e=>{
             num[i].classList.add('active')
             num[i].classList.remove('wrong')
         }
-        score--
-        let temp = document.getElementById('score')
-        temp.innerHTML = "<strong>Score:</strong>" + score;
         num = []
     }
 
     function resetCheckOPtionTwo(){
         for(let i = 0; i<num.length;i++){
             num[i].classList.remove('rotating')
-            num[i].classList.add('active')
+            num[i].classList.remove('grid-odd')
+            num[i].classList.remove('grid-even')
             num[i].classList.remove('correct')
-            let temp = validate(num[i])
-            getPieceClassTwo(num[i], temp)
+            num[i].classList.add('checked')
+            num[i].classList.remove('Bishop');
+            num[i].classList.remove('rook');
+            num[i].classList.remove('King');
+            num[i].classList.remove('Knight');
+            num[i].classList.remove('Pawn');
+            num[i].classList.remove('Queen');
         }
         score++
+        
         let temp = document.getElementById('score')
         temp.innerHTML = "<strong>Score:</strong>" + score;
         num = []
     }
 
     function validate(main){
-            if (main.classList.contains('bishop')){
-                return 'bishop'
+            if (main.classList.contains('Bishop')){
+                return 'Bishop'
             }
-            else if (main.classList.contains('board')){
-                return 'board'
+            else if (main.classList.contains('rook')){
+                return 'rook'
             }
-            else if (main.classList.contains('king')){
-                return 'king'
+            else if (main.classList.contains('King')){
+                return 'King'
             }
-            else if (main.classList.contains('knight')){
-                return 'knight'
+            else if (main.classList.contains('Knight')){
+                return 'Knight'
             }
-            else if (main.classList.contains('pawn')){
-                return 'pawn'
+            else if (main.classList.contains('Pawn')){
+                return 'Pawn'
             }
-            else if (main.classList.contains('queen')){
-                return 'queen'
+            else if (main.classList.contains('Queen')){
+                return 'Queen'
             }
     }
     
@@ -227,27 +229,27 @@ document.addEventListener("click" , e=>{
         switch(temp){
             case 0:
                 cube.classList.remove(string);
-                cube.classList.add('bishop');
+                cube.classList.add('Bishop');
                 break
             case 1:
                 cube.classList.remove(string);
-                cube.classList.add('board');
+                cube.classList.add('rook');
                 break
             case 2:
                 cube.classList.remove(string);
-                cube.classList.add('king');
+                cube.classList.add('King');
                 break
             case 3:
                 cube.classList.remove(string);
-                cube.classList.add('knight');
+                cube.classList.add('Knight');
                 break
             case 4:
                 cube.classList.remove(string);
-                cube.classList.add('pawn');
+                cube.classList.add('Pawn');
                 break
             case 5:
                 cube.classList.remove(string);
-                cube.classList.add('queen');
+                cube.classList.add('Queen');
                 break
         }
     }
